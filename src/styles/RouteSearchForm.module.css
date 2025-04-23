@@ -1,0 +1,37 @@
+/* src/styles/RouteSearchForm.module.css */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 600px;
+    margin: auto;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 10px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.select {
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.searchButton {
+    padding: 0.75rem;
+    background-color: #007b5e;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.searchButton:hover {
+    background-color: #005f47;
+}
