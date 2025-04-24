@@ -44,7 +44,7 @@ export default function AboutPage() {
                     Living in a city like Lagos can be overwhelming, especially when it comes
                     to moving around affordably. OptiRoute Naija was born from our own struggles—
                     standing at bus stops confused, overpaying for routes, and wishing there was
-                    a "Google Maps" for local transport.
+                    a Google Maps for local transport.
                 </p>
             </section>
 

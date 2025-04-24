@@ -1,11 +1,9 @@
 // src/pages/index.tsx
-import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import styles from "@/styles/Home.module.css";
-import RouteResults, { RouteResult } from "@/components/RouteResults";
 
 export default function Home() {
-  const [results, setResults] = useState<RouteResult[]>([]);
 
   return (
     <>
@@ -20,16 +18,10 @@ export default function Home() {
           </Link>
         </div>
         <div className={styles.heroImage}>
-          <img src="/nigeriamap.png" alt="Illustration of Nigeria with transport routes" />
+          <Image src="/nigeriamap.png" alt="Illustration of Nigeria with transport routes" />
         </div>
       </section>
 
-      {results.length > 0 && (
-        <section className={styles.resultsPreview}>
-          <h2 className={styles.sectionTitle}>Results Preview</h2>
-          <RouteResults results={results} />
-        </section>
-      )}
 
       <section className={styles.features}>
         <h2 className={styles.sectionTitle}>Why OptiRoute Naija?</h2>
