@@ -4,7 +4,12 @@ import { RouteResult } from "@/components/RouteResults";
 import axios from "axios";
 
 interface Props {
-    onResults: (results: RouteResult[]) => void; 
+    onResults: (results: RouteResult[]) => void;
+}
+
+interface RouteData {
+    state: string;
+    // You can extend this with more fields if needed
 }
 
 export default function RouteSearchForm({ onResults }: Props) {
@@ -20,8 +25,10 @@ export default function RouteSearchForm({ onResults }: Props) {
     useEffect(() => {
         const fetchStates = async () => {
             try {
-                const response = await axios.get("https://optiroute-naija-backend.onrender.com/api/routes");
-                const states = Array.from(new Set(response.data.map((route: { state: string }) => route.state)));
+                const response = await axios.get<RouteData[]>(
+                    "https://optiroute-naija-backend.onrender.com/api/routes"
+                );
+                const states = Array.from(new Set(response.data.map((route) => route.state)));
                 setAvailableStates(states);
             } catch (err) {
                 console.error("Failed to fetch states:", err);
@@ -37,7 +44,9 @@ export default function RouteSearchForm({ onResults }: Props) {
 
         const fetchStops = async () => {
             try {
-                const response = await axios.get(`https://optiroute-naija-backend.onrender.com/api/routes/state/${state}`);
+                const response = await axios.get(
+                    `https://optiroute-naija-backend.onrender.com/api/routes/state/${state}`
+                );
                 setFromStops(response.data.fromStops);
                 setToStops(response.data.toStops);
                 setFrom(""); // Reset from/to when state changes
@@ -52,8 +61,6 @@ export default function RouteSearchForm({ onResults }: Props) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        console.log({ state, from, to, transportType });
 
         if (!state || !from || !to || !transportType) {
             console.error("Please fill in all fields before submitting.");
@@ -76,7 +83,11 @@ export default function RouteSearchForm({ onResults }: Props) {
         <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
                 <label>State</label>
-                <select value={state} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setState(e.target.value)} required>
+                <select
+                    value={state}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setState(e.target.value)}
+                    required
+                >
                     <option value="">Select a state</option>
                     {availableStates.map((state) => (
                         <option key={state} value={state}>
