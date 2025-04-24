@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/RouteSearchForm.module.css";
+import { RouteResult } from "@/components/RouteResults";
 import axios from "axios";
 
 interface Props {
-    onResults: (results: any[]) => void;
+    onResults: (results: RouteResult[]) => void; 
 }
 
 export default function RouteSearchForm({ onResults }: Props) {
@@ -20,7 +21,7 @@ export default function RouteSearchForm({ onResults }: Props) {
         const fetchStates = async () => {
             try {
                 const response = await axios.get("https://optiroute-naija-backend.onrender.com/api/routes");
-                const states = Array.from(new Set(response.data.map((route: any) => route.state)));
+                const states = Array.from(new Set(response.data.map((route: { state: string }) => route.state)));
                 setAvailableStates(states);
             } catch (err) {
                 console.error("Failed to fetch states:", err);
@@ -49,10 +50,9 @@ export default function RouteSearchForm({ onResults }: Props) {
         fetchStops();
     }, [state]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Log the data before sending
         console.log({ state, from, to, transportType });
 
         if (!state || !from || !to || !transportType) {
@@ -76,7 +76,7 @@ export default function RouteSearchForm({ onResults }: Props) {
         <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
                 <label>State</label>
-                <select value={state} onChange={(e) => setState(e.target.value)} required>
+                <select value={state} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setState(e.target.value)} required>
                     <option value="">Select a state</option>
                     {availableStates.map((state) => (
                         <option key={state} value={state}>
@@ -88,7 +88,12 @@ export default function RouteSearchForm({ onResults }: Props) {
 
             <div className={styles.formGroup}>
                 <label>From</label>
-                <select value={from} onChange={(e) => setFrom(e.target.value)} required disabled={!fromStops.length}>
+                <select
+                    value={from}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFrom(e.target.value)}
+                    required
+                    disabled={!fromStops.length}
+                >
                     <option value="">Select a departure stop</option>
                     {fromStops.map((stop) => (
                         <option key={stop} value={stop}>
@@ -100,7 +105,12 @@ export default function RouteSearchForm({ onResults }: Props) {
 
             <div className={styles.formGroup}>
                 <label>To</label>
-                <select value={to} onChange={(e) => setTo(e.target.value)} required disabled={!toStops.length}>
+                <select
+                    value={to}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTo(e.target.value)}
+                    required
+                    disabled={!toStops.length}
+                >
                     <option value="">Select a destination stop</option>
                     {toStops.map((stop) => (
                         <option key={stop} value={stop}>
@@ -112,7 +122,11 @@ export default function RouteSearchForm({ onResults }: Props) {
 
             <div className={styles.formGroup}>
                 <label>Transport Type</label>
-                <select value={transportType} onChange={(e) => setTransportType(e.target.value)} required>
+                <select
+                    value={transportType}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setTransportType(e.target.value)}
+                    required
+                >
                     <option value="">Select transport</option>
                     <option value="Danfo">Danfo</option>
                     <option value="Keke">Keke</option>

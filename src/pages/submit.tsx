@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import styles from "@/styles/Submit.module.css";
 import { NIGERIAN_STATES } from "../../utils/nigeriaStates";
 import { useState } from "react";

@@ -1,4 +1,3 @@
-import Layout from "@/components/Layout";
 import styles from "@/styles/Contact.module.css";
 import { useState } from "react";
 

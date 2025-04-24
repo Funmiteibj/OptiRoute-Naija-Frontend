@@ -1,8 +1,7 @@
 // src/pages/index.tsx
 import { useState } from "react";
-import Layout from "@/components/Layout";
+import Link from "next/link";
 import styles from "@/styles/Home.module.css";
-import RouteSearchForm from "@/components/RouteSearchForm";
 import RouteResults, { RouteResult } from "@/components/RouteResults";
 
 export default function Home() {
@@ -16,16 +15,13 @@ export default function Home() {
           <p className={styles.heroDescription}>
             The smart way to find danfo, keke, and bus routes in Nigerian cities.
           </p>
-          <button className={styles.heroButton}>Explore Routes</button>
+          <Link href="/search">
+            <button className={styles.heroButton}>Explore Routes</button>
+          </Link>
         </div>
         <div className={styles.heroImage}>
-          <img src="/nigeriamap.png" alt="Route Map Preview" />
+          <img src="/nigeriamap.png" alt="Illustration of Nigeria with transport routes" />
         </div>
-      </section>
-
-      <section className={styles.searchSection}>
-        <h2 className={styles.sectionTitle}>Search for a Route</h2>
-        <RouteSearchForm onResults={setResults} />
       </section>
 
       {results.length > 0 && (
@@ -56,7 +52,9 @@ export default function Home() {
       <section className={styles.cta}>
         <h2>Be Part of the Movement</h2>
         <p>Help millions navigate smarter. Join the OptiRoute Naija community today.</p>
-        <button className={styles.ctaButton}>Submit a Route</button>
+        <Link href="/submit">
+          <button className={styles.ctaButton}>Submit a Route</button>
+        </Link>
       </section>
     </>
   );
