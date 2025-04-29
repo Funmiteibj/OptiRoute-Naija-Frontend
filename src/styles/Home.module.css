@@ -2,7 +2,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 2rem;
   padding: 4rem 2rem;
   background-color: #f0fdf4;
 }
@@ -11,12 +12,14 @@
   flex: 1;
   min-width: 300px;
   padding: 1rem;
+  max-width: 600px;
 }
 
 .heroTitle {
   font-size: 2.5rem;
   color: #006400;
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .heroDescription {
@@ -40,13 +43,19 @@
   background-color: #004d00;
 }
 
+.heroImage {
+  flex: 1;
+  max-width: 500px;
+  min-width: 280px;
+}
+
 .heroImage img {
   width: 100%;
-  max-width: 500px;
   height: auto;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15); /* Stronger visual impact */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
 }
+
 .sectionTitle {
   text-align: center;
   font-size: 2rem;
@@ -88,6 +97,11 @@
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.ctaButton:hover {
+  background-color: #004d00;
 }
 
 .searchSection {
@@ -95,13 +109,7 @@
   background-color: #f0f0f0;
 }
 
-.sectionTitle {
-  text-align: center;
-  font-size: 2rem;
-  color: #006400;
-  margin-bottom: 1rem;
-}
-
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column-reverse;
@@ -117,9 +125,16 @@
     font-size: 1rem;
   }
 
-  .heroImage img {
+  .heroContent {
     max-width: 100%;
-    width: 90%;
-    margin: 1rem auto;
+  }
+
+  .heroImage {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .heroImage img {
+    width: 100%;
   }
 }

@@ -1,4 +1,3 @@
-/* src/styles/Navbar.module.css */
 .header {
     display: flex;
     justify-content: space-between;
@@ -7,6 +6,7 @@
     background-color: #006400;
     color: #fff;
     position: relative;
+    z-index: 1000;
 }
 
 .logo {
@@ -43,27 +43,26 @@
 
 .bar {
     height: 3px;
+    width: 100%;
     background-color: #fff;
     border-radius: 2px;
 }
 
+/* ✅ Mobile styles */
 @media (max-width: 768px) {
     .nav {
         position: absolute;
         top: 70px;
         right: 0;
-        left: 0;
         background-color: #006400;
         flex-direction: column;
         align-items: center;
-        /* ✅ Center menu items */
         gap: 1.2rem;
         padding: 2rem 1rem;
         width: 100%;
         display: none;
-        z-index: 1000;
+        z-index: 999;
         text-align: center;
-        /* ✅ Ensure centered text */
     }
 
     .open {

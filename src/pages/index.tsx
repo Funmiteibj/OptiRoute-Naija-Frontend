@@ -4,7 +4,6 @@ import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 
 export default function Home() {
-
   return (
     <>
       <section className={styles.hero}>
@@ -17,11 +16,18 @@ export default function Home() {
             <button className={styles.heroButton}>Explore Routes</button>
           </Link>
         </div>
+
         <div className={styles.heroImage}>
-          <Image src="/nigeriamap.png" alt="Illustration of Nigeria with transport routes" />
+          <Image
+            src="/nigeriamap.png"
+            alt="Nigeria Map"
+            layout="responsive"
+            width={500}
+            height={500}
+            priority
+          />
         </div>
       </section>
-
 
       <section className={styles.features}>
         <h2 className={styles.sectionTitle}>Why OptiRoute Naija?</h2>
