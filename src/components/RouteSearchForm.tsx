@@ -9,7 +9,6 @@ interface Props {
 
 interface RouteData {
     state: string;
-    // Extend with more fields if needed
 }
 
 export default function RouteSearchForm({ onResults }: Props) {
@@ -20,6 +19,7 @@ export default function RouteSearchForm({ onResults }: Props) {
     const [from, setFrom] = useState("");
     const [to, setTo] = useState("");
     const [transportType, setTransportType] = useState("");
+    const [loadingStops, setLoadingStops] = useState(false);
 
     // Fetch all unique states from available routes on load
     useEffect(() => {
@@ -31,28 +31,34 @@ export default function RouteSearchForm({ onResults }: Props) {
                 const states = Array.from(new Set(response.data.map((route) => route.state)));
                 setAvailableStates(states);
             } catch (err) {
-                console.error("Failed to fetch states:", err);
+                console.error("❌ Failed to fetch states:", err);
             }
         };
 
         fetchStates();
     }, []);
 
-    // Fetch "from" and "to" stops when state changes
+    // Fetch stops based on selected state
     useEffect(() => {
         if (!state) return;
 
         const fetchStops = async () => {
+            setLoadingStops(true);
             try {
                 const response = await axios.get(
                     `https://optiroute-naija-backend.onrender.com/api/routes/state/${state}`
                 );
-                setFromStops(response.data.fromStops);
-                setToStops(response.data.toStops);
-                setFrom(""); // Reset from/to when state changes
+
+                setFromStops(response.data?.fromStops || []);
+                setToStops(response.data?.toStops || []);
+                setFrom("");
                 setTo("");
             } catch (err) {
-                console.error("Failed to fetch stops:", err);
+                console.error("❌ Failed to fetch stops:", err);
+                setFromStops([]);
+                setToStops([]);
+            } finally {
+                setLoadingStops(false);
             }
         };
 
@@ -74,7 +80,7 @@ export default function RouteSearchForm({ onResults }: Props) {
             );
             onResults(response.data);
         } catch (err) {
-            console.error("Search failed:", err);
+            console.error("❌ Search failed:", err);
             onResults([]);
         }
     };
@@ -83,11 +89,7 @@ export default function RouteSearchForm({ onResults }: Props) {
         <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
                 <label>State</label>
-                <select
-                    value={state}
-                    onChange={(e) => setState(e.target.value)}
-                    required
-                >
+                <select value={state} onChange={(e) => setState(e.target.value)} required>
                     <option value="">Select a state</option>
                     {availableStates.map((state) => (
                         <option key={state} value={state}>
@@ -103,10 +105,10 @@ export default function RouteSearchForm({ onResults }: Props) {
                     value={from}
                     onChange={(e) => setFrom(e.target.value)}
                     required
-                    disabled={!fromStops.length}
+                    disabled={loadingStops || !fromStops?.length}
                 >
                     <option value="">Select a departure stop</option>
-                    {fromStops.map((stop) => (
+                    {fromStops?.map((stop) => (
                         <option key={stop} value={stop}>
                             {stop}
                         </option>
@@ -120,10 +122,10 @@ export default function RouteSearchForm({ onResults }: Props) {
                     value={to}
                     onChange={(e) => setTo(e.target.value)}
                     required
-                    disabled={!toStops.length}
+                    disabled={loadingStops || !toStops?.length}
                 >
                     <option value="">Select a destination stop</option>
-                    {toStops.map((stop) => (
+                    {toStops?.map((stop) => (
                         <option key={stop} value={stop}>
                             {stop}
                         </option>
@@ -145,8 +147,8 @@ export default function RouteSearchForm({ onResults }: Props) {
                 </select>
             </div>
 
-            <button type="submit" className={styles.button}>
-                Search Route
+            <button type="submit" className={styles.button} disabled={loadingStops}>
+                {loadingStops ? "Loading..." : "Search Route"}
             </button>
         </form>
     );
